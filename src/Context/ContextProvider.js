@@ -6,11 +6,11 @@ import AppContext from "./AppContext";
 const AppContextProvider = props => {
   const [name, setName] = useState("");
   // 設定區域
-  const [settingArea, setSettingArea] = useState({});
+  const [setting, setSetting] = useState({});
 
   return (
     //這Provider提供 name 跟 setName 給子組件用(子組件可用 useContext獲取)
-    <AppContext.Provider value={{ settingArea, setSettingArea }}>
+    <AppContext.Provider value={{ setting, setSetting }}>
       {props.children}
     </AppContext.Provider>
   );

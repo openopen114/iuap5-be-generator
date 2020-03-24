@@ -11,7 +11,7 @@ import "./SettingArea.scss";
 const { TextArea } = Input;
 
 export default function SettingArea() {
-  const { setSettingArea } = useContext(AppContext);
+  const { setSetting } = useContext(AppContext);
 
   const [form] = Form.useForm();
 
@@ -22,7 +22,7 @@ export default function SettingArea() {
     const { tableName, tableSchema, packageName, projectName } = values;
     const tableSchemaArr = utils.formatTableSchemaToArray(tableSchema);
 
-    setSettingArea({
+    setSetting({
       tableName: _.toUpper(tableName),
       tableSchema: tableSchemaArr,
       packageName: _.toLower(packageName) + _.toLower(projectName),
