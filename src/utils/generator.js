@@ -13,6 +13,7 @@ export const formatTableSchemaToArray = _tableSchema => {
   let result = [];
   for (let i = 0; i < preprocessData.length; i += 2) {
     let obj = {
+      key: preprocessData[i],
       columnName: preprocessData[i],
       columnType: preprocessData[i + 1]
     };
