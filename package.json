@@ -2,6 +2,7 @@
   "name": "iuap5-be-generator",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://openopen114.github.io/iuap5-be-generator/",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -9,18 +10,23 @@
     "antd": "^4.0.4",
     "babel-plugin-import": "^1.13.0",
     "customize-cra": "^0.9.1",
+    "js-beautify": "^1.10.3",
     "lodash": "^4.17.15",
     "node-sass": "^4.13.1",
     "react": "^16.13.1",
     "react-app-rewired": "^2.1.5",
+    "react-copy-to-clipboard": "^5.0.2",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
+    "react-syntax-highlighter": "^12.2.1"
   },
   "scripts": {
     "start": "react-app-rewired  start",
     "build": "react-app-rewired  build",
     "test": "react-app-rewired  test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "yarn build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -36,5 +42,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "gh-pages": "^2.2.0"
   }
 }
