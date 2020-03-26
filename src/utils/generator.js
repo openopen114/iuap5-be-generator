@@ -163,9 +163,9 @@ export const genPO = _setting => {
 
         const findRefColumnName = _.find(
           tableSchema,
-          item => item.javaName === `${item.javaName}Name`
+          o => o.javaName === `${item.javaName}Name`
         );
-        if (!findRefColumnName) {
+        if (_.size(findRefColumnName) == 0) {
           result += `
             @Transient
             private String ${item.javaName}Name;  `;
