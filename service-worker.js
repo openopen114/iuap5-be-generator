@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/iuap5-be-generator/precache-manifest.6d0047e78bf724a79fa9e83dd27805b9.js"
+  "/iuap5-be-generator/precache-manifest.a718f3395573f52f9c6f94452ed1b01e.js"
 );
 
 self.addEventListener('message', (event) => {
