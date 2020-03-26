@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/iuap5-be-generator/static/css/main.9d141514.chunk.css",
+    "main.js": "/iuap5-be-generator/static/js/main.4f0fcc31.chunk.js",
+    "main.js.map": "/iuap5-be-generator/static/js/main.4f0fcc31.chunk.js.map",
+    "runtime-main.js": "/iuap5-be-generator/static/js/runtime-main.34e4b507.js",
+    "runtime-main.js.map": "/iuap5-be-generator/static/js/runtime-main.34e4b507.js.map",
+    "static/css/2.860f3ef8.chunk.css": "/iuap5-be-generator/static/css/2.860f3ef8.chunk.css",
+    "static/js/2.d04975df.chunk.js": "/iuap5-be-generator/static/js/2.d04975df.chunk.js",
+    "static/js/2.d04975df.chunk.js.map": "/iuap5-be-generator/static/js/2.d04975df.chunk.js.map",
+    "index.html": "/iuap5-be-generator/index.html",
+    "precache-manifest.a718f3395573f52f9c6f94452ed1b01e.js": "/iuap5-be-generator/precache-manifest.a718f3395573f52f9c6f94452ed1b01e.js",
+    "service-worker.js": "/iuap5-be-generator/service-worker.js",
+    "static/css/2.860f3ef8.chunk.css.map": "/iuap5-be-generator/static/css/2.860f3ef8.chunk.css.map",
+    "static/css/main.9d141514.chunk.css.map": "/iuap5-be-generator/static/css/main.9d141514.chunk.css.map",
+    "static/js/2.d04975df.chunk.js.LICENSE.txt": "/iuap5-be-generator/static/js/2.d04975df.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.34e4b507.js",
+    "static/css/2.860f3ef8.chunk.css",
+    "static/js/2.d04975df.chunk.js",
+    "static/css/main.9d141514.chunk.css",
+    "static/js/main.4f0fcc31.chunk.js"
+  ]
+}
