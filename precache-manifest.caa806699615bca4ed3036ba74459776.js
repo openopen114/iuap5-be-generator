@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "bfa1d417aa574bbe1ac2c17d184ffbb8",
+    "revision": "1c471ee8e97645e18ce8a71e6e98fbd7",
     "url": "/iuap5-be-generator/index.html"
   },
   {
