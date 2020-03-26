@@ -105,14 +105,14 @@ export const genPO = _setting => {
       import static com.yonyou.iuap.baseservice.support.condition.Match.EQ;
       import static com.yonyou.iuap.baseservice.support.condition.Match.LIKE;
 
-
+      //@BizLogs(metaId="19dab60c-0848-493d-956a-a5a8801adf62")
       @JsonIgnoreProperties(ignoreUnknown = true)
-      @Table(name = "${tableName}")
-    `;
+      @Table(name = "${tableName}")`;
 
   //檢查是否有需code rule字段
   if (at_CodeRules) {
-    result += `@CodeRules(ruleCode = "xxxxx", target = "${at_CodeRules}")`;
+    result += `
+    @CodeRules(ruleCode = "xxxxx", target = "${at_CodeRules}")`;
   }
 
   result += `
@@ -280,7 +280,8 @@ export const genService = _setting => {
         import ${packageName}.dao.${projectName}DAO;
         import ${packageName}.po.${projectName}PO;
         import static com.yonyou.iuap.baseservice.intg.support.ServiceFeature.AUDIT;
-
+        import static com.yonyou.iuap.baseservice.intg.support.ServiceFeature.BIZLOGS;
+        
         @Service
         public class ${projectName}Service extends GenericUcfService<${projectName}PO,String> {
 
