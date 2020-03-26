@@ -10,8 +10,11 @@ import * as _ from "lodash";
 import "./AnnotationConfig.scss";
 
 export default function AnnotationConfig() {
-  const { setting, setSetting } = useContext(AppContext);
+  const { setting, setSetting, setGenResult } = useContext(AppContext);
   const { tableSchema } = setting;
+
+  console.log("tableSchema");
+  console.log(tableSchema);
 
   // on chage 事件
   const onChange = (e, _index) => {
@@ -40,9 +43,67 @@ export default function AnnotationConfig() {
   // 產生後端五寶
   const doGenerate = () => {
     console.log("產生後端五寶");
-    //TODO: 把五寶資料存在物件
-    //TODO: highlight
-    utils.genPO(setting);
+
+    const { projectName } = setting;
+    const generateResult = [];
+
+    _.forEach(tableSchema, item => {
+      if (item.annotation === "at_I18nEnumCode") {
+        const enumConstantClass = utils.genConstantEnum(setting, item);
+
+        const obj = {
+          location: "#domain",
+          codeString: enumConstantClass,
+          title: `${projectName}Enum`
+        };
+
+        generateResult.push(obj);
+      }
+    });
+    const PO = utils.genPO(setting);
+    const DAO = utils.genDAO(setting);
+    const Service = utils.genService(setting);
+    const DTO = utils.genDTO(setting);
+    const Controller = utils.genController(setting);
+    const UtilsProcessSqlParams = utils.genUtilsProcessSqlParams(setting);
+
+    generateResult.push({
+      location: "#domain",
+      codeString: PO,
+      title: `${projectName}PO`
+    });
+
+    generateResult.push({
+      location: "#domain",
+      codeString: DAO,
+      title: `${projectName}DAO`
+    });
+
+    generateResult.push({
+      location: "#domain",
+      codeString: Service,
+      title: `${projectName}Service`
+    });
+
+    generateResult.push({
+      location: "#app",
+      codeString: DTO,
+      title: `${projectName}DTO`
+    });
+
+    generateResult.push({
+      location: "#domain",
+      codeString: Controller,
+      title: `${projectName}Controller`
+    });
+
+    generateResult.push({
+      location: "#domain",
+      codeString: UtilsProcessSqlParams,
+      title: `UtilsProcessSqlParamsFor${projectName}`
+    });
+
+    setGenResult(generateResult);
   };
 
   const columns = [
@@ -53,8 +114,8 @@ export default function AnnotationConfig() {
     },
     {
       title: "Type",
-      dataIndex: "columnType",
-      key: "columnType"
+      dataIndex: "javaType",
+      key: "javaType"
     },
     {
       title: "Annotation",
@@ -81,7 +142,11 @@ export default function AnnotationConfig() {
       )}
 
       {_.size(setting) > 0 && (
-        <Button type="primary" icon={<CodeOutlined />}>
+        <Button
+          type="primary"
+          icon={<CodeOutlined />}
+          onClick={() => doGenerate()}
+        >
           Generate Code
         </Button>
       )}

@@ -25,7 +25,7 @@ export default function SettingArea() {
     setSetting({
       tableName: _.toUpper(tableName),
       tableSchema: tableSchemaArr,
-      packageName: _.toLower(packageName) + _.toLower(projectName),
+      packageName: _.toLower(packageName) + "." + _.toLower(projectName),
       projectName: _.upperFirst(projectName)
     });
   };
