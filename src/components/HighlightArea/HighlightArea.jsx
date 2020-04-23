@@ -7,7 +7,7 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import { Button } from "antd";
 import { CopyOutlined } from "@ant-design/icons";
 
-import moduleName from "../../../node_modules/highlight.js/scss/dracula.scss";
+import "../../../node_modules/highlight.js/scss/dracula.scss";
 import "./HighlightArea.scss";
 
 export default function HighlightArea() {
@@ -15,7 +15,7 @@ export default function HighlightArea() {
 
   return (
     <div className="highlight-area">
-      {genResult.map(item => {
+      {genResult.map((item) => {
         return (
           <div key={`${item.title}`}>
             <h1 className="result-title">

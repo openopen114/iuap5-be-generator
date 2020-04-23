@@ -12,6 +12,7 @@ export default function Header() {
         <a
           href="https://github.com/openopen114/iuap5-be-generator"
           target="_blank"
+          rel="noopener noreferrer"
         >
           {" "}
           Github

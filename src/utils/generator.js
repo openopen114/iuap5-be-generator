@@ -2,24 +2,35 @@ import * as _ from "lodash";
 import * as beautify from "js-beautify";
 
 //將 table schema 轉成 Array
-export const formatTableSchemaToArray = _tableSchema => {
+export const formatTableSchemaToArray = (_tableSchema) => {
   let preprocessData = _.split(_tableSchema, "[");
   const patt = new RegExp("]");
-  preprocessData = _.filter(preprocessData, item => patt.test(item));
-  preprocessData = _.map(preprocessData, item => _.split(item, "]")[0]);
+  preprocessData = _.filter(preprocessData, (item) => patt.test(item));
+  preprocessData = _.map(preprocessData, (item) => _.split(item, "]")[0]);
 
-  preprocessData = _.filter(preprocessData, o => {
+  preprocessData = _.filter(preprocessData, (o) => {
     return o !== "" && o !== "\n";
   });
 
   const map = new Map();
 
+  // JDBC Types Mapped to Java Object Types:
+  //  https://www.cis.upenn.edu/~bcpierce/courses/629/jdkdocs/guide/jdbc/getstart/mapping.doc.html
   map.set("VAR", "String"); //VARCHAR
-  map.set("DEC", "Double"); //DECIMAL
+  map.set("DEC", "BigDecimal"); //DECIMAL
   map.set("INT", "Integer"); //INT
   map.set("NVA", "String"); //NVARCHAR
   map.set("CHA", "String"); //CHAR
   map.set("BIT", "Boolean"); //BIT
+  map.set("BIG", "Long"); //BIGINT
+  map.set("NUM", "BigDecimal"); //NUMERIC
+  map.set("TIN", "Integer"); //TINYINT
+  map.set("SMA", "Integer"); //SMALLINT
+  map.set("REA", "Float"); //REAL
+  map.set("FLO", "Double"); //FLOAT
+  map.set("DOU", "Double"); //DOUBLE
+  map.set("DAT", "Date"); //DATE
+  map.set("TIM", "Time"); //Time
 
   //ignore entity colunm
   const ignoreColumnName = [
@@ -31,7 +42,8 @@ export const formatTableSchemaToArray = _tableSchema => {
     "LAST_MODIFY_USER_NAME",
     "TS",
     "DR",
-    "ID"
+    "ID",
+    "TENANT_ID",
   ];
 
   let result = [];
@@ -50,7 +62,7 @@ export const formatTableSchemaToArray = _tableSchema => {
       javaName: _.camelCase(preprocessData[i]),
       javaType: map.get(preprocessData[i + 1].trim().substring(0, 3))
         ? map.get(preprocessData[i + 1].trim().substring(0, 3))
-        : "String"
+        : "String",
     };
     result.push(obj);
   }
@@ -59,19 +71,19 @@ export const formatTableSchemaToArray = _tableSchema => {
 };
 
 //產生 PO
-export const genPO = _setting => {
+export const genPO = (_setting) => {
   const {
     tableName,
     tableSchema,
     packageName,
     projectName,
-    at_CodeRules
+    at_CodeRules,
   } = _setting;
   let result = "";
 
   const hasEnum = _.find(
     tableSchema,
-    item => item.annotation === "at_I18nEnumCode"
+    (item) => item.annotation === "at_I18nEnumCode"
   );
 
   result += `
@@ -120,7 +132,7 @@ export const genPO = _setting => {
     public class ${projectName}PO extends BasePO implements AuditTrail  {
   `;
 
-  _.forEach(tableSchema, item => {
+  _.forEach(tableSchema, (item) => {
     switch (item.annotation) {
       case "at_I18nEnumCode":
         result += `
@@ -163,9 +175,9 @@ export const genPO = _setting => {
 
         const findRefColumnName = _.find(
           tableSchema,
-          o => o.javaName === `${item.javaName}Name`
+          (o) => o.javaName === `${item.javaName}Name`
         );
-        if (_.size(findRefColumnName) == 0) {
+        if (_.size(findRefColumnName) === 0) {
           result += `
             @Transient
             private String ${item.javaName}Name;  `;
@@ -228,14 +240,8 @@ export const genPO = _setting => {
 };
 
 //產生 DAO
-export const genDAO = _setting => {
-  const {
-    tableName,
-    tableSchema,
-    packageName,
-    projectName,
-    at_CodeRules
-  } = _setting;
+export const genDAO = (_setting) => {
+  const { packageName, projectName } = _setting;
   let result = "";
 
   result += `
@@ -258,14 +264,8 @@ export const genDAO = _setting => {
 };
 
 //產生 Service
-export const genService = _setting => {
-  const {
-    tableName,
-    tableSchema,
-    packageName,
-    projectName,
-    at_CodeRules
-  } = _setting;
+export const genService = (_setting) => {
+  const { tableSchema, packageName, projectName, at_CodeRules } = _setting;
   let result = "";
 
   result += ` 
@@ -305,7 +305,7 @@ export const genService = _setting => {
 
   const hasEnum = _.find(
     tableSchema,
-    item => item.annotation === "at_I18nEnumCode"
+    (item) => item.annotation === "at_I18nEnumCode"
   );
 
   if (hasEnum) {
@@ -329,14 +329,8 @@ export const genService = _setting => {
 };
 
 //產生 DTO
-export const genDTO = _setting => {
-  const {
-    tableName,
-    tableSchema,
-    packageName,
-    projectName,
-    at_CodeRules
-  } = _setting;
+export const genDTO = (_setting) => {
+  const { tableSchema, packageName, projectName } = _setting;
   let result = "";
 
   result += ` 
@@ -356,7 +350,7 @@ export const genDTO = _setting => {
         private List<Map<String, String>> orderByParam;
     `;
 
-  _.forEach(tableSchema, item => {
+  _.forEach(tableSchema, (item) => {
     result += ` 
 
     /** ${item.javaName} **/
@@ -371,14 +365,8 @@ export const genDTO = _setting => {
 };
 
 //產生 Controller
-export const genController = _setting => {
-  const {
-    tableName,
-    tableSchema,
-    packageName,
-    projectName,
-    at_CodeRules
-  } = _setting;
+export const genController = (_setting) => {
+  const { tableSchema, packageName, projectName } = _setting;
   let result = "";
 
   result += `package  ${packageName}.controller;
@@ -452,7 +440,7 @@ export const genController = _setting => {
 
   //處理 String 類型非空判斷
 
-  _.forEach(tableSchema, item => {
+  _.forEach(tableSchema, (item) => {
     if (item.javaType === "String") {
       result += `
       
@@ -565,13 +553,7 @@ export const genController = _setting => {
 
 //產生 contant/Enum
 export const genConstantEnum = (_setting, _enumColumnObj) => {
-  const {
-    tableName,
-    tableSchema,
-    packageName,
-    projectName,
-    at_CodeRules
-  } = _setting;
+  const { packageName } = _setting;
 
   const { javaName, javaType } = _enumColumnObj;
 
@@ -627,14 +609,8 @@ export const genConstantEnum = (_setting, _enumColumnObj) => {
 };
 
 //產生 utils/processSqlParamsFor$
-export const genUtilsProcessSqlParams = _setting => {
-  const {
-    tableName,
-    tableSchema,
-    packageName,
-    projectName,
-    at_CodeRules
-  } = _setting;
+export const genUtilsProcessSqlParams = (_setting) => {
+  const { packageName, projectName } = _setting;
   let result = "";
 
   result += `
