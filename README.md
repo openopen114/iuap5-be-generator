@@ -32,3 +32,31 @@ FROM INFORMATION_SCHEMA.COLUMNS
 WHERE TABLE_NAME = 'YOUR-TABLE-NAME';
 ```
 
+
+
+
+
+### JDBC Types Mapped to Java Object Types:
+
+Ref:[https://www.cis.upenn.edu/~bcpierce/courses/629/jdkdocs/guide/jdbc/getstart/mapping.doc.html](https://www.cis.upenn.edu/~bcpierce/courses/629/jdkdocs/guide/jdbc/getstart/mapping.doc.html)
+
+JDBC          |  JAVA   
+--------------|:-----
+VARCHAR   	 | String  
+CHAR               |  String 
+NVARCHAR     | String 
+DECIMAL  		| BigDecimal
+INT   			   |  Integer
+TINYINT  		  |   Integer
+SMALLINT  	|  Integer
+BIGINT  		 |  Long
+NUMERIC      |  BigDecimal
+DECIMAL       |  BigDecimal
+REAL  		   |  Float
+FLOAT  		   |  Double
+DOUBLE 	     |  Double
+BIT 			   |  Boolean
+DATE  		   |  Date
+TIME  		   |  Time
+
+ 
